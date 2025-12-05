@@ -1,9 +1,10 @@
 import { Router } from "express";
 import authController from "./auth.controller";
 
-// app.use("/api/v1/auth", authRouter);
+// /api/v1/auth
 const router = Router();
 
 router.post('/signup', authController.signup);
+router.post('/login', authController.login);
 
 export const authRouter = router;
