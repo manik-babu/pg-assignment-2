@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { pool } from "../../config/db";
 import authService from "./auth.service";
 
 
@@ -15,7 +14,10 @@ const signup = async (req: Request, res: Response) => {
             });
         }
 
+        // user creation
         const user = await authService.createUser(req.body);
+
+        // success response
         res.status(201).json({
             success: true,
             message: "User registered successfully",
