@@ -45,10 +45,35 @@ const getAllVehicles = async () => {
         data: result.rows
     };
 }
+const getAllVehicleById = async (vehicleId: string) => {
+    const result = await pool.query(`SELECT * FROM vehicles WHERE id = $1`, [vehicleId]);
+    if (result.rowCount == 0) {
+        return null;
+    }
+
+    return result.rows[0];
+}
+const updateVehicleById = async (vehicleId: string, data: any) => {
+
+    const existingVehicle = await pool.query(`SELECT * FROM vehicles WHERE id = $1`, [vehicleId]);
+    if (existingVehicle.rowCount == 0) {
+        return null;
+    }
+
+    const updatedVehicle = {
+        ...existingVehicle.rows[0],
+        ...data
+    };
+    const tableInputs = [updatedVehicle.vehicle_name, updatedVehicle.type, updatedVehicle.registration_number, updatedVehicle.daily_rent_price, updatedVehicle.availability_status, vehicleId];
+    const result = await pool.query(`UPDATE vehicles SET vehicle_name = $1, type = $2, registration_number = $3, daily_rent_price = $4, availability_status = $5 WHERE id = $6 RETURNING *`, tableInputs);
+    return result.rows[0];
+}
 
 const vehicleService = {
     formValidationError,
     createVehicle,
     getAllVehicles,
+    getAllVehicleById,
+    updateVehicleById,
 }
 export default vehicleService;

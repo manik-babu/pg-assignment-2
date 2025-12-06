@@ -50,9 +50,69 @@ const getAllVehicles = async (req: Request, res: Response) => {
         });
     }
 }
+const getAllVehicleById = async (req: Request, res: Response) => {
+    const { vehicleId } = req.params;
+    try {
+        const vehicle = await vehicleService.getAllVehicleById(vehicleId!);
+
+        // not found response
+        if (!vehicle) {
+            return res.status(404).json({
+                success: false,
+                message: "Vehicle retrieve failed",
+                errors: `Vehicle not found for id ${vehicleId}`
+            })
+        }
+
+        // success response
+        res.status(200).json({
+            success: true,
+            message: "Vehicle retrieved successfully",
+            data: vehicle
+        })
+
+    } catch (error: any) {
+        res.status(500).json({
+            success: false,
+            message: 'Internal server error!',
+            errors: error.message
+        });
+    }
+}
+const updateVehicleById = async (req: Request, res: Response) => {
+    const { vehicleId } = req.params;
+    try {
+        const result = await vehicleService.updateVehicleById(vehicleId!, req.body);
+
+        // not found response
+        if (!result) {
+            return res.status(404).json({
+                success: false,
+                message: "Vehicle update failed",
+                errors: `Vehicle not found for id ${vehicleId}`
+            })
+        }
+
+        // success response
+        res.status(200).json({
+            success: true,
+            message: "Vehicle updated successfully",
+            data: result
+        })
+    } catch (error: any) {
+        res.status(500).json({
+            success: false,
+            message: 'Internal server error!',
+            errors: error.message
+        });
+    }
+}
+
 
 const vehicleController = {
     createVehicle,
     getAllVehicles,
+    getAllVehicleById,
+    updateVehicleById,
 };
 export default vehicleController;
