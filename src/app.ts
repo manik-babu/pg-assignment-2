@@ -1,7 +1,8 @@
 import express, { Request, Response } from "express";
 import initDB from "./config/db";
-import { authRouter } from "./modules/auth/auth.routes";
-import { vehicleRouter } from "./modules/vehicle/vehicle.routes";
+import { authRoute } from "./modules/auth/auth.routes";
+import { vehicleRoute } from "./modules/vehicle/vehicle.routes";
+import { userRoute } from "./modules/user/user.routes";
 
 const app = express();
 app.use(express.json());
@@ -12,8 +13,9 @@ app.use(express.urlencoded());
 initDB();
 
 // routes
-app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/vehicles", vehicleRouter);
+app.use("/api/v1/auth", authRoute);
+app.use("/api/v1/vehicles", vehicleRoute);
+app.use("/api/v1/users", userRoute);
 
 app.get('/', (req: Request, res: Response) => {
     res.status(200).json({

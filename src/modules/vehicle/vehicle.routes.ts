@@ -13,4 +13,4 @@ router.put('/:vehicleId', auth("admin"), vehicleController.updateVehicleById);
 router.delete('/:vehicleId', auth("admin"), vehicleController.deleteVehicleById);
 
 
-export const vehicleRouter = router;
+export const vehicleRoute = router;
