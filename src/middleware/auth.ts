@@ -20,7 +20,7 @@ const auth = (...roles: string[]) => {
                 return res.status(403).json({
                     success: false,
                     message: "Vehicle creation failed!",
-                    errors: "Insufficient permissions! You are not allow to do this"
+                    errors: "Insufficient permissions! You are not allowed to do this!"
                 })
             }
 
