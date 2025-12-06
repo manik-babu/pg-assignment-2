@@ -12,9 +12,19 @@ const formValidationError = async (payload: any) => {
         return "Required fields cannot be empty"
     }
 
+    // email character validation
+    if (/[A-Z]/.test(email)) {
+        return "Email cannot contain uppercase character";
+    }
+
     // password length validation
     if (password.length < 6) {
         return "Password can't be less than 6 characters"
+    }
+
+    // role validation 'admin' or 'customer'
+    if (role != 'admin' && role != 'customer') {
+        return "Role can be only 'admin' or 'customer'";
     }
 
     // Duplicate email validation
