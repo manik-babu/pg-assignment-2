@@ -31,9 +31,24 @@ const createVehicle = async (payload: any) => {
 
     return result.rows[0];
 }
+const getAllVehicles = async () => {
+    const result = await pool.query(`SELECT * FROM vehicles`);
+    if (result.rowCount == 0) {
+        return {
+            message: "No vehicles found",
+            data: []
+        };
+    }
+
+    return {
+        message: "Vehicles retrieved successfully",
+        data: result.rows
+    };
+}
 
 const vehicleService = {
     formValidationError,
     createVehicle,
+    getAllVehicles,
 }
 export default vehicleService;
