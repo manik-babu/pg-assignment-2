@@ -107,12 +107,40 @@ const updateVehicleById = async (req: Request, res: Response) => {
         });
     }
 }
+const deleteVehicleById = async (req: Request, res: Response) => {
+    const { vehicleId } = req.params;
+    try {
+        const result = await vehicleService.deleteVehicleById(vehicleId!);
 
+        // not found response
+        if (result.rowCount == 0) {
+            return res.status(404).json({
+                success: false,
+                message: "Vehicle deletion failed",
+                errors: `Vehicle not found for id ${vehicleId}`
+            })
+        }
+
+        // success response 
+        res.status(200).json({
+            success: true,
+            message: "Vehicle deleted successfully"
+        })
+
+    } catch (error: any) {
+        res.status(500).json({
+            success: false,
+            message: 'Internal server error!',
+            errors: error.message
+        });
+    }
+}
 
 const vehicleController = {
     createVehicle,
     getAllVehicles,
     getAllVehicleById,
     updateVehicleById,
+    deleteVehicleById,
 };
 export default vehicleController;

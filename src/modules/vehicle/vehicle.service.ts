@@ -68,6 +68,10 @@ const updateVehicleById = async (vehicleId: string, data: any) => {
     const result = await pool.query(`UPDATE vehicles SET vehicle_name = $1, type = $2, registration_number = $3, daily_rent_price = $4, availability_status = $5 WHERE id = $6 RETURNING *`, tableInputs);
     return result.rows[0];
 }
+const deleteVehicleById = async (vehicleId: string) => {
+    const result = await pool.query(`DELETE FROM vehicles WHERE id = $1 RETURNING *`, [vehicleId]);
+    return result;
+}
 
 const vehicleService = {
     formValidationError,
@@ -75,5 +79,6 @@ const vehicleService = {
     getAllVehicles,
     getAllVehicleById,
     updateVehicleById,
+    deleteVehicleById,
 }
 export default vehicleService;
